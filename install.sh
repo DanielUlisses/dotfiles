@@ -40,11 +40,12 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-    find . -name '.*' -type f --depth 1 -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
+    find . -name '.*' -type f -depth 1 -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
 }
 
 antidote_install() {
     git clone --depth=1 https://github.com/mattmc3/antidote.git $HOME/.antidote
+    source $HOME/.antidote/antidote.zsh
     antidote bundle < $SCRIPT_DIR/zsh_plugins > $HOME/.zsh_plugins.zsh
 }
 
