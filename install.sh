@@ -20,6 +20,10 @@ if [[ "$(uname -r)" == *microsoft* ]]; then
    PLATFORM="WSL"
 fi
 
+if [[ "$(uname -r)" == *azure* ]]; then 
+   PLATFORM="CODESPACES"
+fi
+
 aptintall() {
     packages=$1
     sudo apt install -y $packages
@@ -98,6 +102,12 @@ case $PLATFORM in
     fonts_install
     ccedil
     change_shell
+    ;;
+"CODESPACES")
+    echo "Codespaces dotfiles Installation"
+    aptintall "$packages_docker"
+    dotfiles_install
+    antidote_install
     ;;
 "DOCKER")
     echo "Docker dotfiles Installation"
