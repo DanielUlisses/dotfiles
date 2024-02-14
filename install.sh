@@ -40,7 +40,7 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-    find -name ".*"-type f --depth 1 -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
+    find . -name '.*' -type f --depth 1 -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
 }
 
 antidote_install() {
