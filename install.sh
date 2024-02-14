@@ -4,6 +4,7 @@
 
 #parameters
 packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tig tree zip unzip zsh vim"
+packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tree zip unzip zsh vim"
 packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tig tree zip unzip zsh vim"
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tig tree zip unzip zsh vim wslu ssh-askpass"
 username=danielulisses
@@ -105,7 +106,7 @@ case $PLATFORM in
     ;;
 "CODESPACES")
     echo "Codespaces dotfiles Installation"
-    aptintall "$packages_docker"
+    aptintall "$packages_codespaces"
     dotfiles_install
     antidote_install
     ;;
