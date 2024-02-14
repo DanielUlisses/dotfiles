@@ -3,10 +3,10 @@
 #this script is ready for debian based distros
 
 #parameters
-packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tig tree zip unzip zsh vim"
-packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tree zip unzip zsh vim"
-packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tig tree zip unzip zsh vim"
-packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make tig tree zip unzip zsh vim wslu ssh-askpass"
+packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
+packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  ip unzip zsh vim"
+packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  zip unzip zsh vim"
+packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
 username=danielulisses
 email=$username@outlook.com
 
@@ -40,13 +40,13 @@ ssh_configure() {
 }
 
 dotfiles_install() {
+    mkdir $HOME/.config
     find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
 }
 
-antidote_install() {
-    git clone --depth=1 https://github.com/mattmc3/antidote.git $HOME/.antidote
-    source $HOME/.antidote/antidote.zsh
-    antidote bundle < $SCRIPT_DIR/zsh_plugins > $HOME/.zsh_plugins.zsh
+antibody_install() {
+    curl -sfL git.io/antibody | sudo sh -s - -b /usr/local/bin
+    antibody bundle < $FOLDER/zsh_plugins > $HOME/.zsh_plugins.zsh
 }
 
 githubcli_setup() {
@@ -75,7 +75,7 @@ docker_autostart_wsl() {
 }
 
 wsl_configure() {
-    cp $SCRIPT_DIR/.wslconfig "${windowsUserProfile}/.wslconfig"
+    sudo cp $SCRIPT_DIR/.wslconfig "${windowsUserProfile}/.wslconfig"
 }
 
 fonts_install() {
@@ -99,26 +99,23 @@ case $PLATFORM in
     ssh_configure
     dotfiles_install
     githubcli_setup
+    antibody_install
     docker_setup
     fonts_install
     ccedil
     change_shell
-    zsh
-    antidote_install
     ;;
 "CODESPACES")
     echo "Codespaces dotfiles Installation"
     aptintall "$packages_codespaces"
     dotfiles_install
-    zsh
-    antidote_install
+    antibody_install
     ;;
 "DOCKER")
     echo "Docker dotfiles Installation"
     aptintall "$packages_docker"
     dotfiles_install
-    zsh
-    antidote_install
+    antibody_install
     ;;
 "WSL")
     echo "WSL dotfiles Installation"
@@ -127,12 +124,11 @@ case $PLATFORM in
     ssh_configure
     dotfiles_install
     githubcli_setup
+    antibody_install
     docker_setup
     docker_autostart_wsl
     wsl_configure
     change_shell
-    zsh
-    antidote_install
     ;;
 *)
     echo "Error: Invalid argument $PLATFORM ."
