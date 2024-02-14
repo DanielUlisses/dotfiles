@@ -1,0 +1,12 @@
+[user]
+	email = danielulisses@outlook.com
+	name = danielulisses
+[init]
+	defaultBranch = main
+[commit]
+	gpgsign = false
+[core]
+	pager = /usr/bin/less
+    excludesfile = /home/daniel/.gitignore
+[fetch]
+	prune = false
