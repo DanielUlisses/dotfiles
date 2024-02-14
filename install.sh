@@ -4,7 +4,7 @@
 
 #parameters
 packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
-packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  ip unzip zsh vim"
+packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
 packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  zip unzip zsh vim"
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
 username=danielulisses
@@ -46,7 +46,7 @@ dotfiles_install() {
 
 antibody_install() {
     curl -sfL git.io/antibody | sudo sh -s - -b /usr/local/bin
-    antibody bundle < $FOLDER/zsh_plugins > $HOME/.zsh_plugins.zsh
+    antibody bundle < $SCRIPT_DIR/zsh_plugins > $HOME/.zsh_plugins.zsh
 }
 
 githubcli_setup() {
