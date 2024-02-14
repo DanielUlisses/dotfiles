@@ -40,7 +40,7 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-    find . -name '.*' -type f -depth 1 -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
+    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
 }
 
 antidote_install() {
@@ -98,23 +98,26 @@ case $PLATFORM in
     read -p "Download the ssh-backup.tar.gz to downloads folder and press enter to continue"
     ssh_configure
     dotfiles_install
-    antidote_install
     githubcli_setup
     docker_setup
     fonts_install
     ccedil
     change_shell
+    zsh
+    antidote_install
     ;;
 "CODESPACES")
     echo "Codespaces dotfiles Installation"
     aptintall "$packages_codespaces"
     dotfiles_install
+    zsh
     antidote_install
     ;;
 "DOCKER")
     echo "Docker dotfiles Installation"
     aptintall "$packages_docker"
     dotfiles_install
+    zsh
     antidote_install
     ;;
 "WSL")
@@ -123,12 +126,13 @@ case $PLATFORM in
     read -p "Download the ssh-backup.tar.gz to downloads folder and press enter to continue"
     ssh_configure
     dotfiles_install
-    antidote_install
     githubcli_setup
     docker_setup
     docker_autostart_wsl
     wsl_configure
     change_shell
+    zsh
+    antidote_install
     ;;
 *)
     echo "Error: Invalid argument $PLATFORM ."
