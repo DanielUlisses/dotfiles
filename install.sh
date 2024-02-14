@@ -78,7 +78,11 @@ fonts_install() {
 }
 
 ccedil() {
-    
+    sudo echo GTK_IM_MODULE=cedilla >> /etc/environment
+}
+
+change_shell() {
+    chsh -s $(which zsh)
 }
 
 case $PLATFORM in
@@ -92,6 +96,8 @@ case $PLATFORM in
     githubcli_setup
     docker_setup
     fonts_install
+    ccedil
+    change_shell
     ;;
 "DOCKER")
     echo "Docker dotfiles Installation"
@@ -110,6 +116,7 @@ case $PLATFORM in
     docker_setup
     docker_autostart_wsl
     wsl_configure
+    change_shell
     ;;
 *)
     echo "Error: Invalid argument $PLATFORM ."
