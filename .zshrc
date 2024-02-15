@@ -127,7 +127,7 @@ bindkey '\e[4~'   end-of-line        # Linux console
 bindkey '\e[F'    end-of-line        # xterm
 bindkey '\eOF'    end-of-line        # gnome-terminal
 
-if [[ ! grep -q docker /proc/1/cgroup ]]; then
+if ! $(grep -q docker /proc/1/cgroup); then
   
 	# SSH agent
 	ssh_pid_file="$HOME/.config/ssh-agent.pid"
