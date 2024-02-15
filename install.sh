@@ -10,20 +10,34 @@ packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-
 username=danielulisses
 email=$username@outlook.com
 
-PLATFORM="LINUX"
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if grep -q docker /proc/1/cgroup; then 
-   PLATFORM="DOCKER"
-fi
 
-if [[ "$(uname -r)" == *microsoft* ]]; then 
-   PLATFORM="WSL"
-fi
+get_platform(){
+    PLATFORM="LINUX"
+    if grep -q docker /proc/1/cgroup; then 
+    PLATFORM="DOCKER"
+    echo $PLATFORM
+    return 0
+    fi
 
-if [[ "$(uname -r)" == *azure* ]]; then 
-   PLATFORM="CODESPACES"
-fi
+    if [[ "$(uname -r)" == *microsoft* ]]; then 
+    PLATFORM="WSL"
+    echo $PLATFORM
+    return 0
+    fi
+
+    if [[ "$(uname -r)" == *azure* ]]; then 
+    PLATFORM="CODESPACES"
+    echo $PLATFORM
+    return 0
+    fi
+
+    echo $PLATFORM
+    return 0
+}
+
+PLATFORM=$(get_platform)
 
 aptintall() {
     packages=$1
