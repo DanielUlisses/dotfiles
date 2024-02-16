@@ -74,15 +74,20 @@ githubcli_setup() {
 
 docker_setup() {
     # Add Docker to sources.list
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    echo \
-    "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo install -m 0755 -d /etc/apt/keyrings
+    sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-    sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
+    # Add the repository to Apt sources:
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo usermod -aG docker $USER
     sudo curl -sL -o /usr/local/bin/docker-compose $(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep "browser_download_url.*$(uname -s | awk '{print tolower($0)}')-$(uname -m)" | grep -v sha | cut -d: -f2,3 | tr -d \")
-    sudo chmod +x /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose   
 }
 
 docker_autostart_wsl() {
@@ -107,7 +112,9 @@ change_shell() {
 }
 
 env_vars() {
-    echo "export devcontainer_url=$devcontainer" >> $HOME/.zshrc
+    if !(grep -q githubusercontent "$HOME/.zshrc"); then
+        echo "export devcontainer_url=$devcontainer" >> $HOME/.zshrc
+    fi
 }
 
 case $PLATFORM in

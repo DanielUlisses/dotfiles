@@ -155,3 +155,4 @@ if ! $(grep -q docker /proc/1/cgroup); then
 	export SSH_AUTH_SOCK
 
 fi
+export devcontainer_url=https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/2be374631ae2f9e95205fedf0a8a0e29e19a5767/devcontainer.json
