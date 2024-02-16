@@ -9,26 +9,26 @@ packages_docker="apt-transport-https ca-certificates git gnupg-agent curl softwa
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
 username=danielulisses
 email=$username@outlook.com
-devcontainer="https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/2be374631ae2f9e95205fedf0a8a0e29e19a5767/devcontainer.json"
+devcontainer="https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/4c9b8f79faebde6663bc22cc89697d5f84145a0d/devcontainer.json"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 
 get_platform(){
     PLATFORM="LINUX"
-    if grep -q docker /proc/1/cgroup; then 
+    if grep -q docker /proc/1/cgroup; then
     PLATFORM="DOCKER"
     echo $PLATFORM
     return 0
     fi
 
-    if [[ "$(uname -r)" == *microsoft* ]]; then 
+    if [[ "$(uname -r)" == *microsoft* ]]; then
     PLATFORM="WSL"
     echo $PLATFORM
     return 0
     fi
 
-    if [[ "$(uname -r)" == *azure* ]]; then 
+    if [[ "$(uname -r)" == *azure* ]]; then
     PLATFORM="CODESPACES"
     echo $PLATFORM
     return 0
@@ -56,7 +56,7 @@ ssh_configure() {
 
 dotfiles_install() {
     mkdir $HOME/.config
-    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;    
+    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;
 }
 
 antibody_install() {
@@ -87,7 +87,7 @@ docker_setup() {
     sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo usermod -aG docker $USER
     sudo curl -sL -o /usr/local/bin/docker-compose $(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep "browser_download_url.*$(uname -s | awk '{print tolower($0)}')-$(uname -m)" | grep -v sha | cut -d: -f2,3 | tr -d \")
-    sudo chmod +x /usr/local/bin/docker-compose   
+    sudo chmod +x /usr/local/bin/docker-compose
 }
 
 docker_autostart_wsl() {

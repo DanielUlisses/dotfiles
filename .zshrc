@@ -128,7 +128,7 @@ bindkey '\e[F'    end-of-line        # xterm
 bindkey '\eOF'    end-of-line        # gnome-terminal
 
 if ! $(grep -q docker /proc/1/cgroup); then
-  
+
 	# SSH agent
 	ssh_pid_file="$HOME/.config/ssh-agent.pid"
 	SSH_AUTH_SOCK="$HOME/.config/ssh-agent.sock"
@@ -155,4 +155,4 @@ if ! $(grep -q docker /proc/1/cgroup); then
 	export SSH_AUTH_SOCK
 
 fi
-export devcontainer_url=https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/2be374631ae2f9e95205fedf0a8a0e29e19a5767/devcontainer.json
+export devcontainer_url=https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/4c9b8f79faebde6663bc22cc89697d5f84145a0d/devcontainer.json
