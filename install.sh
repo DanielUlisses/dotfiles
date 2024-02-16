@@ -9,6 +9,7 @@ packages_docker="apt-transport-https ca-certificates git gnupg-agent curl softwa
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
 username=danielulisses
 email=$username@outlook.com
+devcontainer="https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/2be374631ae2f9e95205fedf0a8a0e29e19a5767/devcontainer.json"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -105,6 +106,10 @@ change_shell() {
     chsh -s $(which zsh)
 }
 
+env_vars() {
+    echo "export devcontainer_url=$devcontainer" >> $HOME/.zshrc
+}
+
 case $PLATFORM in
 "LINUX")
     echo "Linux dotfiles Installation"
@@ -118,18 +123,21 @@ case $PLATFORM in
     fonts_install
     ccedil
     change_shell
+    env_vars
     ;;
 "CODESPACES")
     echo "Codespaces dotfiles Installation"
     aptintall "$packages_codespaces"
     dotfiles_install
     antibody_install
+    env_vars
     ;;
 "DOCKER")
     echo "Docker dotfiles Installation"
     aptintall "$packages_docker"
     dotfiles_install
     antibody_install
+    env_vars
     ;;
 "WSL")
     echo "WSL dotfiles Installation"
@@ -143,6 +151,7 @@ case $PLATFORM in
     docker_autostart_wsl
     wsl_configure
     change_shell
+    env_vars
     ;;
 *)
     echo "Error: Invalid argument $PLATFORM ."
