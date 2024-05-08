@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #this script is ready for debian based distros
 
