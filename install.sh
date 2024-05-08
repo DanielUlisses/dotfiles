@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 #this script is ready for debian based distros
 
@@ -56,8 +56,8 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-    # mkdir -p $HOME/.config
-    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "~/{}" \;
+    mkdir -p $HOME/.config
+    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;
 }
 
 antibody_install() {
