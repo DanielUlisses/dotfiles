@@ -56,7 +56,7 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-    mkdir $HOME/.config
+    mkdir -p $HOME/.config
     find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;
 }
 
