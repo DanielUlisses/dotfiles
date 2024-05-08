@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 #this script is ready for debian based distros
 
@@ -11,7 +11,7 @@ username=danielulisses
 email=$username@outlook.com
 devcontainer="https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/4c9b8f79faebde6663bc22cc89697d5f84145a0d/devcontainer.json"
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${(%):-%N}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 
 # get_platform(){
