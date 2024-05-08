@@ -163,5 +163,6 @@ case $PLATFORM in
     ;;
 *)
     dotfiles_install
+    antibody_install
     shift
 esac
