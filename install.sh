@@ -61,7 +61,7 @@ dotfiles_install() {
 }
 
 antibody_install() {
-    curl -sfL git.io/antibody | sudo sh -s - -b /usr/local/bin
+    # curl -sfL git.io/antibody | sudo sh -s - -b /usr/local/bin
     antibody bundle < $SCRIPT_DIR/zsh_plugins > $HOME/.zsh_plugins.zsh
 }
 
