@@ -14,31 +14,32 @@ devcontainer="https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfd
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 
-get_platform(){
-    PLATFORM="LINUX"
-    if grep -q docker /proc/1/cgroup; then
-    PLATFORM="DOCKER"
-    echo $PLATFORM
-    return 0
-    fi
+# get_platform(){
+#     PLATFORM="LINUX"
+#     if grep -q docker /proc/1/cgroup; then
+#     PLATFORM="DOCKER"
+#     echo $PLATFORM
+#     return 0
+#     fi
 
-    if [[ "$(uname -r)" == *microsoft* ]]; then
-    PLATFORM="WSL"
-    echo $PLATFORM
-    return 0
-    fi
+#     if [[ "$(uname -r)" == *microsoft* ]]; then
+#     PLATFORM="WSL"
+#     echo $PLATFORM
+#     return 0
+#     fi
 
-    if [[ "$(uname -r)" == *azure* ]]; then
-    PLATFORM="CODESPACES"
-    echo $PLATFORM
-    return 0
-    fi
+#     if [[ "$(uname -r)" == *azure* ]]; then
+#     PLATFORM="CODESPACES"
+#     echo $PLATFORM
+#     return 0
+#     fi
 
-    echo $PLATFORM
-    return 0
-}
+#     echo $PLATFORM
+#     return 0
+# }
 
-PLATFORM=$(get_platform)
+# PLATFORM=$(get_platform)
+PLATFORM=default
 
 aptintall() {
     packages=$1
@@ -161,6 +162,6 @@ case $PLATFORM in
     env_vars
     ;;
 *)
-    echo "Error: Invalid argument $PLATFORM ."
+    dotfiles_install
     shift
 esac
