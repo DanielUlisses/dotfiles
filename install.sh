@@ -56,8 +56,8 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-    mkdir -p $HOME/.config
-    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "$HOME/{}" \;
+    # mkdir -p $HOME/.config
+    find . -name '.*' -type f -exec ln -sf "$SCRIPT_DIR/{}" "~/{}" \;
 }
 
 antibody_install() {
