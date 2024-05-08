@@ -162,7 +162,8 @@ case $PLATFORM in
     env_vars
     ;;
 *)
+    echo "installing packages default"
     dotfiles_install
     antibody_install
-    shift
+    ;;
 esac
