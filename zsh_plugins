@@ -4,6 +4,7 @@ romkatv/powerlevel10k
 # Plugins
 robbyrussell/oh-my-zsh
 robbyrussell/oh-my-zsh path:lib/git.zsh
+robbyrussell/oh-my-zsh path:plugins/fzf
 robbyrussell/oh-my-zsh path:plugins/git
 robbyrussell/oh-my-zsh path:plugins/docker
 robbyrussell/oh-my-zsh path:plugins/colored-man-pages

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #this script is ready for debian based distros
-
+#TODO neovim install 
 #parameters
-packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
+packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim htop gcc tmux fzf nodejs wl-clipboard"
 packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
 packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  zip unzip zsh vim"
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
