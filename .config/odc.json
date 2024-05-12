@@ -1,0 +1,5 @@
+{
+  "dotfiles_repo": "https://github.com/DanielUlisses/dotfiles.git",
+  "dotfiles_target": "~/dotfiles",
+  "shell": "zsh",
+}
