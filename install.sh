@@ -72,6 +72,10 @@ nvim_install() {
     git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
 }
 
+nvim_clone_config() {
+    git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
+}
+
 githubcli_setup() {
     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
     && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -170,6 +174,7 @@ case $PLATFORM in
     ;;
 *)
     echo "installing packages default"
+    nvim_clone_config
     dotfiles_install
     antibody_install
     ;;
