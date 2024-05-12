@@ -40,7 +40,9 @@ export PATH=$HOME/bin:/usr/local/bin:/home/daniel/.local/bin:/home/daniel/bin:$P
 
 #add devcontainers to path
 export PATH='/home/daniel/.config/Code - Insiders/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin':$PATH
-
+#add tmuxifier
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+#
 # Go
 #export PATH=$PATH:/usr/local/go/bin
 #export PATH=$PATH:$(go env GOPATH)/bin

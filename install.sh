@@ -3,7 +3,7 @@
 #this script is ready for debian based distros
 #TODO neovim install 
 #parameters
-packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim htop gcc tmux fzf nodejs wl-clipboard"
+packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh htop gcc tmux fzf nodejs wl-clipboard cmake clang gettext ripgrep tree"
 packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
 packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  zip unzip zsh vim"
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
@@ -63,6 +63,13 @@ dotfiles_install() {
 antibody_install() {
     # curl -sfL git.io/antibody | sudo sh -s - -b /usr/local/bin
     antibody bundle < $SCRIPT_DIR/zsh_plugins > $HOME/.zsh_plugins.zsh
+}
+
+nvim_install() {
+    RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    RUN tar -C /opt -xzf nvim-linux64.tar.gz
+    RUN ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim
+    RUN git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
 }
 
 githubcli_setup() {
@@ -163,6 +170,8 @@ case $PLATFORM in
     ;;
 *)
     echo "installing packages default"
+    aptintall "$packages_linux"
+    nvim_install
     dotfiles_install
     antibody_install
     ;;

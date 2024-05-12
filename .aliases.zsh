@@ -3,7 +3,18 @@ alias tf="terraform"
 alias terrafrom="terraform"
 alias python='python3'
 #alias pip='pip3.12'
-#alias vim='nvim'
+alias vim='nvim'
+alias ta='tmuxifier attach'
+alias tas='tmuxifier attach-session'
+alias tl='tmuxifier list'
+alias tls='tmuxifier list-sessions'
+alias tn='tmuxifier new'
+alias tns='tmuxifier new-session'
+alias ts='tmuxifier start'
+alias tss='tmuxifier start-session'
+alias tk='tmuxifier kill'
+alias tks='tmuxifier kill-session'
+alias tka='tmuxifier kill-all'
 
 #
 # Aliases
