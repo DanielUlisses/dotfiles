@@ -170,8 +170,6 @@ case $PLATFORM in
     ;;
 *)
     echo "installing packages default"
-    aptintall "$packages_linux"
-    nvim_install
     dotfiles_install
     antibody_install
     ;;
