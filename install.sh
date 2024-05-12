@@ -66,10 +66,10 @@ antibody_install() {
 }
 
 nvim_install() {
-    RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-    RUN tar -C /opt -xzf nvim-linux64.tar.gz
-    RUN ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim
-    RUN git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    tar -C /opt -xzf nvim-linux64.tar.gz
+    ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim
+    git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
 }
 
 githubcli_setup() {
