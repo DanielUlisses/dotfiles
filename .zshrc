@@ -130,3 +130,7 @@ bindkey '\e[F'    end-of-line        # xterm
 bindkey '\eOF'    end-of-line        # gnome-terminal
 
 export devcontainer_url=https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/4c9b8f79faebde6663bc22cc89697d5f84145a0d/devcontainer.json
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

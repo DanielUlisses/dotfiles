@@ -3,7 +3,7 @@
 #this script is ready for debian based distros
 #TODO neovim install 
 #parameters
-packages_linux="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh htop gcc tmux fzf nodejs wl-clipboard cmake clang gettext ripgrep tree"
+packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh htop gcc tmux fzf wl-clipboard cmake clang gettext ripgrep tree"
 packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
 packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  zip unzip zsh vim"
 packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
@@ -100,6 +100,17 @@ docker_setup() {
     sudo usermod -aG docker $USER
     sudo curl -sL -o /usr/local/bin/docker-compose $(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep "browser_download_url.*$(uname -s | awk '{print tolower($0)}')-$(uname -m)" | grep -v sha | cut -d: -f2,3 | tr -d \")
     sudo chmod +x /usr/local/bin/docker-compose
+}
+
+nodejs_nvm_setup() {
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+    source ~/.bashrc
+    nvm install 18
+    nvm use 18
+}
+
+devcontainer-cli() {
+    npm install -g @devcontainers/cli
 }
 
 docker_autostart_wsl() {
