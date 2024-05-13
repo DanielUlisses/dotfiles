@@ -1,0 +1,4 @@
+#!/bin/bash
+SCRIPTPATH=$HOME/dotfiles
+cd $SCRIPTPATH
+./install.sh
