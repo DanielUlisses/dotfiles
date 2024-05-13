@@ -1,45 +1,56 @@
 #!/bin/bash
 
+set -e
+
+function exit_with_message() {
+		echo $1
+		exit 1
+}
+
 #this script is ready for debian based distros
-#TODO neovim install 
-#parameters
-packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh htop gcc tmux fzf wl-clipboard cmake clang gettext ripgrep tree"
-packages_codespaces="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim"
-packages_docker="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make  zip unzip zsh vim"
-packages_wsl="apt-transport-https ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh vim wslu"
-username=danielulisses
-email=$username@outlook.com
-devcontainer="https://gist.githubusercontent.com/DanielUlisses/26df75819ae492cfdc1b5db05877679f/raw/4c9b8f79faebde6663bc22cc89697d5f84145a0d/devcontainer.json"
+packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh htop gcc fzf cmake clang gettext ripgrep tree"
+packages_additional="tmux wl-clipboard"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+while [ $# -gt 0 ]; do
+		case "$1" in
+				--install-packages)
+						INSTALL=$2
+						shift
+						;;
+				--install-additional)
+						INSTALL_ADDITIONAL=$2
+						shift
+						;;
+				--setup-ssh)
+						SETUP_SSH=$2
+						shift
+						;;
+				--setup-docker)
+						SETUP_DOCKER=$2
+						shift
+						;;
+				--setup-github-cli)
+						SETUP_GITHUB_CLI=$2
+						shift
+						;;
+				--install-nerd-fonts)
+						INSTALL_NERD_FONTS=$2
+						shift
+						;;
+				--change-ccedil)
+						CHANGE_CEDILLA=$2
+						shift
+						;;
+				*)
+						echo "Running default options"
+						DEFAULT=true
+						;;
+		esac
+		shift
+done
 
-# get_platform(){
-#     PLATFORM="LINUX"
-#     if grep -q docker /proc/1/cgroup; then
-#     PLATFORM="DOCKER"
-#     echo $PLATFORM
-#     return 0
-#     fi
-
-#     if [[ "$(uname -r)" == *microsoft* ]]; then
-#     PLATFORM="WSL"
-#     echo $PLATFORM
-#     return 0
-#     fi
-
-#     if [[ "$(uname -r)" == *azure* ]]; then
-#     PLATFORM="CODESPACES"
-#     echo $PLATFORM
-#     return 0
-#     fi
-
-#     echo $PLATFORM
-#     return 0
-# }
-
-# PLATFORM=$(get_platform)
-PLATFORM=default
 
 aptintall() {
     packages=$1
@@ -73,7 +84,11 @@ nvim_install() {
 }
 
 nvim_clone_config() {
-    git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
+  if [ ! -d ~/.config/nvim ]; then
+		git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
+	else
+		git -C ~/.config/nvim pull
+	fi
 }
 
 githubcli_setup() {
@@ -113,14 +128,6 @@ devcontainer-cli() {
     npm install -g @devcontainers/cli
 }
 
-docker_autostart_wsl() {
-    sudo ln -sf $SCRIPT_DIR/wsl.conf /etc/wsl.conf
-}
-
-wsl_configure() {
-    sudo cp $SCRIPT_DIR/.wslconfig "${windowsUserProfile}/.wslconfig"
-}
-
 fonts_install() {
     ln -sf $SCRIPT_DIR/fonts/* $HOME/.fonts
     fc-cache -f -v
@@ -130,63 +137,56 @@ ccedil() {
     sudo echo GTK_IM_MODULE=cedilla >> /etc/environment
 }
 
+tmuxifier_install() {
+	git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
+}
+
 change_shell() {
     chsh -s $(which zsh)
 }
 
-env_vars() {
-    if !(grep -q githubusercontent "$HOME/.zshrc"); then
-        echo "export devcontainer_url=$devcontainer" >> $HOME/.zshrc
-    fi
-}
+echo "executing default actions"
+dotfiles_install
+antibody_install
+nvim_clone_config
 
-case $PLATFORM in
-"LINUX")
-    echo "Linux dotfiles Installation"
-    aptintall "$packages_linux"
-    read -p "Download the ssh-backup.tar.gz to downloads folder and press enter to continue"
-    ssh_configure
-    dotfiles_install
-    githubcli_setup
-    antibody_install
-    docker_setup
-    fonts_install
-    ccedil
-    change_shell
-    env_vars
-    ;;
-"CODESPACES")
-    echo "Codespaces dotfiles Installation"
-    aptintall "$packages_codespaces"
-    dotfiles_install
-    antibody_install
-    env_vars
-    ;;
-"DOCKER")
-    echo "Docker dotfiles Installation"
-    aptintall "$packages_docker"
-    dotfiles_install
-    antibody_install
-    env_vars
-    ;;
-"WSL")
-    echo "WSL dotfiles Installation"
-    aptintall "$packages_wsl"
-    read -p "Download the ssh-backup.tar.gz to downloads folder and press enter to continue"
-    ssh_configure
-    dotfiles_install
-    githubcli_setup
-    antibody_install
-    docker_setup
-    docker_autostart_wsl
-    wsl_configure
-    change_shell
-    env_vars
-    ;;
-*)
-    echo "installing packages default"
-    nvim_clone_config
-    dotfiles_install
-    antibody_install
-    ;;
-esac
+if [ $INSTALL ]; then
+		echo "installing packages"
+		aptintall $packages_linux
+		change_shell
+fi
+
+if [ $INSTALL_ADDITIONAL ]; then
+		echo "installing additional packages"
+		aptintall $packages_additional
+		nvim_install
+		devcontainer-cli
+		tmuxifier_install
+fi
+
+if [ $SETUP_SSH ]; then
+		echo "setting up ssh"
+		ssh_configure
+fi
+
+if [ $SETUP_DOCKER ]; then
+		echo "setting up docker"
+		docker_setup
+fi
+
+if [ $SETUP_GITHUB_CLI ]; then
+		echo "setting up github cli"
+		githubcli_setup
+fi
+
+if [ $INSTALL_NERD_FONTS ]; then
+		echo "installing nerd fonts"
+		fonts_install
+fi
+
+if [ $CHANGE_CEDILLA ]; then
+		echo "changing cedilla"
+		ccedil
+fi
+
+echo "all steps are completed!!!"
