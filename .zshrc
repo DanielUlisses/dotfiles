@@ -118,9 +118,6 @@ autoload -U add-zsh-hook
 #load-tfswitch
 #load-tfswitch
 
-autoload -U colors; colors
-RPROMPT='%{$fg[blue]%}($ZSH_SUBSCRIPTION_PROMPT)%{$reset_color%}'
-
 # Keybindings
 # Source: https://www.zsh.org/mla/users/2008/msg00794.html
 bindkey '\e[1~'   beginning-of-line  # Linux console
