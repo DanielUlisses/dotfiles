@@ -12,7 +12,6 @@ source ~/.aliases.zsh
 #zsh home export
 #export ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-robbyrussell-SLASH-oh-my-zsh"
 #export ZSH_CACHE_DIR=$HOME/.oh-my-zsh/cache
-
 # All zsh plugins (Generated via Antibody)
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 #source <(antibody init)
@@ -134,3 +133,6 @@ export devcontainer_url=https://gist.githubusercontent.com/DanielUlisses/26df758
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+eval "$(starship init zsh)"
+

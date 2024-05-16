@@ -1,5 +1,6 @@
 # Prompt
-romkatv/powerlevel10k
+# romkatv/powerlevel10k
+# hadenlabs/zsh-starship
 
 # Plugins
 robbyrussell/oh-my-zsh
