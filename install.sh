@@ -99,6 +99,10 @@ kitty_install() {
 	sed -i 's/Icon=kitty/Icon=\/home\/daniel\/.local\/kitty.app\/share\/icons\/hicolor\/256x256\/apps\/kitty.png/g' ~/.local/share/applications/kitty.desktop
 }
 
+starship_install() {
+		curl -fsSL https://starship.rs/install.sh | bash
+}
+
 githubcli_setup() {
     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
     && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -161,6 +165,7 @@ nvim_clone_config
 if [ $INSTALL ]; then
 		echo "installing packages"
 		aptintall $packages_linux
+		starship_install
 		change_shell
 fi
 
