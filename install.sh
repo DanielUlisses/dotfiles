@@ -91,6 +91,14 @@ nvim_clone_config() {
 	fi
 }
 
+kitty_install() {
+	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh
+	sudo ln -s ~/.local/kitty.app/bin/kitty /usr/bin/kitty
+	sudo ln -s ~/.local/kitty.app/bin/kitten /usr/bin/kitten
+	cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/kitty.desktop
+	sed -i 's/Icon=kitty/Icon=\/home\/daniel\/.local\/kitty.app\/share\/icons\/hicolor\/256x256\/apps\/kitty.png/g' ~/.local/share/applications/kitty.desktop
+}
+
 githubcli_setup() {
     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
     && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -162,6 +170,7 @@ if [ $INSTALL_ADDITIONAL ]; then
 		nvim_install
 		devcontainer-cli
 		tmuxifier_install
+		kitty_install
 fi
 
 if [ $SETUP_SSH ]; then
