@@ -165,7 +165,6 @@ nvim_clone_config
 if [ $INSTALL ]; then
 		echo "installing packages"
 		aptintall $packages_linux
-		starship_install
 		change_shell
 fi
 
