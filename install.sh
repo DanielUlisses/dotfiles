@@ -78,9 +78,9 @@ antibody_install() {
 
 nvim_install() {
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-    tar -C /opt -xzf nvim-linux64.tar.gz
-    ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim
-    git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
+    sudo tar -C /opt -xzf nvim-linux64.tar.gz
+    [[ ! -f /usr/bin/nvim ]] && sudo ln -s /opt/nvim-linux64/bin/nvim /usr/bin/nvim || echo "nvim already set"
+#    git clone https://github.com/DanielUlisses/lazy.nvim ~/.config/nvim
 }
 
 nvim_clone_config() {
@@ -132,6 +132,9 @@ docker_setup() {
 nodejs_nvm_setup() {
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
     source ~/.bashrc
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
     nvm install 18
     nvm use 18
 }
@@ -141,7 +144,8 @@ devcontainer-cli() {
 }
 
 fonts_install() {
-    ln -sf $SCRIPT_DIR/fonts/* $HOME/.fonts
+  [[ ! -d $HOME/.fonts ]] && mkdir -p $HOME/.fonts || echo "fonts directory available"  
+   ln -sf $SCRIPT_DIR/fonts/* $HOME/.fonts
     fc-cache -f -v
 }
 
@@ -150,7 +154,7 @@ ccedil() {
 }
 
 tmuxifier_install() {
-	git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
+	[[ ! -d ~/.tmuxifier ]] && git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier || echo "tmuxifier directory already in place" 
 }
 
 change_shell() {
@@ -163,18 +167,19 @@ antibody_install
 nvim_clone_config
 
 if [ $INSTALL ]; then
-		echo "installing packages"
-		aptintall $packages_linux
+		echo "installing packages " $packages_linux
+		aptintall "$packages_linux"
 		change_shell
 fi
 
 if [ $INSTALL_ADDITIONAL ]; then
 		echo "installing additional packages"
-		aptintall $packages_additional
+		aptintall "$packages_additional"
 		nvim_install
+		nodejs_nvm_setup
 		devcontainer-cli
 		tmuxifier_install
-		kitty_install
+#		kitty_install
 fi
 
 if [ $SETUP_SSH ]; then
