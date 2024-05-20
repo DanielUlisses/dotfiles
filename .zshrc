@@ -28,10 +28,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Preferred editor for local and remote sessions
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # screen
-export SCREENDIR=$HOME/.screen
+# export SCREENDIR=$HOME/.screen
 
 
 # If you come from bash you might have to change your $PATH.
@@ -133,6 +133,10 @@ export devcontainer_url=https://gist.githubusercontent.com/DanielUlisses/26df758
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#c resolve ctrl+hjkl on nvim
+infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+tic $TERM.ti
 
 # To customize prompt, run `p10k configure` or edit ~/repos/danielulisses/dotfiles/.p10k.zsh.
 [[ ! -f ~/repos/danielulisses/dotfiles/.p10k.zsh ]] || source ~/repos/danielulisses/dotfiles/.p10k.zsh
