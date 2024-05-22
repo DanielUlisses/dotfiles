@@ -10,3 +10,5 @@
     excludesfile = /home/daniel/.gitignore
 [fetch]
 	prune = false
+[credential]
+	helper = "!f() { /home/vscode/.vscode-server-insiders/bin/81c89c4d00663e1718871bab2f9bf2064a060b63-insider/node /tmp/vscode-remote-containers-d76d94f2-5288-4678-8519-f0f44ee9c3a2.js git-credential-helper $*; }; f"
