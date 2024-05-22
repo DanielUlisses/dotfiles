@@ -2,6 +2,7 @@ alias code="code-insiders"
 alias tf="terraform"
 alias terrafrom="terraform"
 alias python='python3'
+alias btop='bpytop'
 #alias pip='pip3.12'
 alias vim='nvim'
 alias ta='tmuxifier attach'

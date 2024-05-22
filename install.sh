@@ -8,7 +8,7 @@ function exit_with_message() {
 }
 
 #this script is ready for debian based distros
-packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh htop gcc fzf cmake clang gettext ripgrep tree"
+packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh bpytop htop gcc fzf cmake clang gettext ripgrep tree"
 packages_additional="tmux wl-clipboard"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
