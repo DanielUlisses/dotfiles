@@ -59,7 +59,9 @@ aptintall() {
 
 omakub_install() {
 		sudo apt remove zsh zsh-common -y
+		sudo apt-get purge --auto-remove zsh -y
 		sudo usermod --shell /usr/bin/bash vscode
+		sudo chsh -s /bin/bash vscode
 		export OMAKUB_FIRST_RUN_LANGUAGES="" 
 		export OMAKUB_FIRST_RUN_DBS=""
 		wget -qO- https://omakub.org/install | bash
