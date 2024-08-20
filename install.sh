@@ -123,6 +123,7 @@ kitty_install() {
 
 starship_install() {
 		curl -fsSL https://starship.rs/install.sh | sh
+		eval "$(starship init bash)"
 }
 
 githubcli_setup() {
