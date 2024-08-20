@@ -58,6 +58,8 @@ aptintall() {
 }
 
 omakub_install() {
+		export OMAKUB_FIRST_RUN_LANGUAGES = "Node.js Go Python" 
+		export OMAKUB_FIRST_RUN_DBS = ""
 		echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
 		echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
 		wget -qO- https://omakub.org/install | sh
@@ -183,8 +185,8 @@ change_shell() {
 
 echo "executing default actions"
 dotfiles_install
+omakub_install
 starship_install
-
 
 if [ $INSTALL ]; then
 		echo "installing packages " $packages_linux
@@ -227,7 +229,6 @@ if [ $CHANGE_CEDILLA ]; then
 		ccedil
 fi
 
-echo "installing omakub"
-omakub_install
+
 
 echo "all steps are completed!!!"
