@@ -59,6 +59,8 @@ aptintall() {
 
 omakub_install() {
 		wget -qO- https://omakub.org/install | bash
+		echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
+		echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
 }
 
 ssh_configure() {
@@ -176,14 +178,12 @@ tmuxifier_install() {
 }
 
 change_shell() {
-    chsh -s $(which zsh)
+    chsh -s $(which bash)
 }
 
 echo "executing default actions"
 omakub_install
-# dotfiles_install
-# antibody_install
-# nvim_clone_config
+change_shell
 
 if [ $INSTALL ]; then
 		echo "installing packages " $packages_linux
