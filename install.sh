@@ -62,7 +62,6 @@ omakub_install() {
 		export OMAKUB_FIRST_RUN_DBS=""
 		wget -qO- https://omakub.org/install | bash
 		echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
-		echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
 }
 
 ssh_configure() {
