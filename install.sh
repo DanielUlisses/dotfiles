@@ -58,7 +58,7 @@ aptintall() {
 }
 
 omakub_install() {
-		sudo apt remove zsh -y
+		sudo apt remove zsh zsh-common -y
 		export OMAKUB_FIRST_RUN_LANGUAGES="Node.js Go Python" 
 		export OMAKUB_FIRST_RUN_DBS=""
 		wget -qO- https://omakub.org/install | bash
