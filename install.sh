@@ -60,9 +60,9 @@ aptintall() {
 omakub_install() {
 		export OMAKUB_FIRST_RUN_LANGUAGES="Node.js Go Python" 
 		export OMAKUB_FIRST_RUN_DBS=""
+		wget -qO- https://omakub.org/install | bash
 		echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
 		echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
-		wget -qO- https://omakub.org/install | bash
 }
 
 ssh_configure() {
