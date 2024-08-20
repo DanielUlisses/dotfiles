@@ -60,7 +60,7 @@ aptintall() {
 omakub_install() {
 		echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
 		echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
-		wget -qO- https://omakub.org/install | bash
+		wget -qO- https://omakub.org/install | sh
 }
 
 ssh_configure() {
