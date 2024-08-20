@@ -8,8 +8,8 @@ function exit_with_message() {
 }
 
 #this script is ready for debian based distros
-packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip zsh bpytop htop gcc fzf cmake clang gettext ripgrep tree"
-packages_additional="tmux wl-clipboard"
+packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip bpytop htop gcc fzf cmake clang gettext ripgrep tree wget"
+packages_additional="tmux wl-clipboard zsh"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -57,6 +57,10 @@ aptintall() {
     sudo apt install -y $packages
 }
 
+omakub_install() {
+		wget -qO- https://omakub.org/install | bash
+}
+
 ssh_configure() {
     tar -xzf $HOME/Downloads/ssh-backup.tar.gz -C $HOME
     [[ ! -d $HOME/.ssh ]] && mkdir -p $HOME/.ssh
@@ -64,6 +68,20 @@ ssh_configure() {
     chmod 700 $HOME/.ssh
     chmod 600 $HOME/.ssh/*
     chmod 644 $HOME/.ssh/*.pub
+}
+
+zellij_install() {
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+		source $HOME/.cargo/env
+		cargo install --locked zellij
+}
+
+mise_install() {
+		curl https://mise.run | sh
+}
+
+zoxide_install() {
+		curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 }
 
 dotfiles_install() {
@@ -162,23 +180,24 @@ change_shell() {
 }
 
 echo "executing default actions"
-dotfiles_install
-antibody_install
-nvim_clone_config
+omakub_install
+# dotfiles_install
+# antibody_install
+# nvim_clone_config
 
 if [ $INSTALL ]; then
 		echo "installing packages " $packages_linux
 		aptintall "$packages_linux"
-		change_shell
+		# change_shell
 fi
 
 if [ $INSTALL_ADDITIONAL ]; then
 		echo "installing additional packages"
 		aptintall "$packages_additional"
-		nvim_install
-		nodejs_nvm_setup
 		devcontainer-cli
-		tmuxifier_install
+		# nodejs_nvm_setup
+		# nvim_install
+		# tmuxifier_install
 #		kitty_install
 fi
 
