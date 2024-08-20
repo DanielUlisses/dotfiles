@@ -187,7 +187,8 @@ change_shell() {
 echo "executing default actions"
 dotfiles_install
 omakub_install
-starship_install
+change_shell
+# starship_install
 
 if [ $INSTALL ]; then
 		echo "installing packages " $packages_linux
