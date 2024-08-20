@@ -58,9 +58,9 @@ aptintall() {
 }
 
 omakub_install() {
-		wget -qO- https://omakub.org/install | bash
 		echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
 		echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
+		wget -qO- https://omakub.org/install | bash
 }
 
 ssh_configure() {
@@ -182,10 +182,9 @@ change_shell() {
 }
 
 echo "executing default actions"
-omakub_install
-change_shell
 dotfiles_install
 starship_install
+
 
 if [ $INSTALL ]; then
 		echo "installing packages " $packages_linux
@@ -227,5 +226,8 @@ if [ $CHANGE_CEDILLA ]; then
 		echo "changing cedilla"
 		ccedil
 fi
+
+echo "installing omakub"
+omakub_install
 
 echo "all steps are completed!!!"
