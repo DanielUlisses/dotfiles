@@ -1,0 +1,24 @@
+alias ssh-add='ssh-add.exe'
+alias ssh='ssh-add.exe -l > /dev/null || ssh-add.exe && echo -e "\e[92mssh-key(s) are now available in your ssh-agent until you lock your windows machine! \n \e[0m" && ssh.exe'
+gaap() {
+  git add -A && git commit -m "$*" && git push
+}
+alias gaa='git add -A'
+gpsup() {
+  git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+}
+gaapsup() {
+  git add -A && git commit -m "$*" && git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+}
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gp='git push'
+alias gl='git pull'
+alias k='kubectl'
+alias kga='kubectl get all'
+alias kgs='kubectl get svc'
+alias kgp='kubectl get pods'
+kd() {
+  kubectl describe $1 $2
+}
+
