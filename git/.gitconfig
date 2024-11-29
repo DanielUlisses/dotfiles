@@ -1,0 +1,13 @@
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[pull]
+	rebase = true
+[core]
+	sshcommand = ssh.exe
+	editor = nvim
+[user]
+	name = daniel silva
+	email = danielulisses@outlook.com
