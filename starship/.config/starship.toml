@@ -80,6 +80,8 @@ format = '[ $symbol $branch ]($style)'
 [git_status]
 style = 'bg:nord2 fg:nord4'
 format = '[$all_status$ahead_behind ]($style)'
+only_nonzero_diffs = true
+ignore_submodules = true
 
 [git_metrics]
 added_style = 'bg:nord2 fg:nord14'
