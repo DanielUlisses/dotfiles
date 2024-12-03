@@ -86,7 +86,7 @@ ssh_configure() {
 
 dotfiles_install() {
     sudo apt install -y stow
-		packages=$(find $SCRIPT_DIR -maxdepth 1 -mindepth 1 -type d -exec basename {} \;)
+		packages=$(bash, git, starship, zellij)
 		for package in $packages; do
 				stow -v $package
 		done
