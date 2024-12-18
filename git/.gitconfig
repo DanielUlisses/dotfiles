@@ -6,7 +6,7 @@
 [pull]
 	rebase = true
 [core]
-	sshcommand = ssh.exe
+#	sshcommand = ssh.exe
 	editor = nvim
 [user]
 	name = daniel silva

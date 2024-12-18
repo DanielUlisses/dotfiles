@@ -22,3 +22,10 @@ kd() {
   kubectl describe $1 $2
 }
 
+azprcreate() {
+  az repos pr create -r $(basename `git rev-parse --show-toplevel`) -s  $(git branch --show-current) -t $1 -o table
+}
+
+azprcomplete() {
+  az repos pr complete --id $1 --status completed -o table
+}
