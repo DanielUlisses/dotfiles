@@ -98,6 +98,7 @@ dotfiles_install() {
 
 starship_install() {
   curl -fsSL https://starship.rs/install.sh | sh
+  echo 'eval "$(starship init bash)"' >>$HOME/.bashrc
   eval "$(starship init bash)"
 }
 
