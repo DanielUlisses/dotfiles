@@ -84,7 +84,12 @@ ssh_configure() {
 }
 
 dotfiles_install() {
+  sudo apt update
   sudo apt install -y stow
+  [[ -f $HOME/.gitconfig ]] && mv $HOME/.gitconfig $HOME/.gitconfig.bak
+  [[ -f $HOME/.bashrc ]] && mv $HOME/.bashrc $HOME/.bashrc.bak
+  [[ -f $HOME/.aliases ]] && mv $HOME/.aliases $HOME/.aliases.bak
+  [[ -f $HOME/.config/zellij/config.kdl ]] && mv $HOME/.config/zellij/config.kdl $HOME/.config/zellij/config.kdl.bak
   stow -v bash
   stow -v git
   stow starship
@@ -112,7 +117,7 @@ change_shell() {
 
 echo "executing default actions"
 # omakub_install
-starship_install
+# starship_install
 dotfiles_install
 
 if [ $INSTALL ]; then
