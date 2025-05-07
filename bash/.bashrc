@@ -1,5 +1,6 @@
-[[ -f ~/.local/share/omakub/defaults/bash/rc ]] && source ~/.local/share/omakub/defaults/bash/rc 
-
+[[ -f ~/.local/share/omakub/defaults/bash/rc ]] && \
+  source ~/.local/share/omakub/defaults/bash/rc || \
+  source ~/.alternate_bash
 
 # Editor used by CLI
 export EDITOR="nvim"

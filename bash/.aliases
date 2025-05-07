@@ -8,16 +8,25 @@ gpsup() {
 gaapsup() {
   git add -A && git commit -m "$*" && git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
 }
+alias g='git'
+alias d='docker'
 alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gp='git push'
 alias gl='git pull'
+alias gcm='git commit -m'
+alias gcam='git commit -a -m'
+alias gcad='git commit -a --amend'
 alias k='kubectl'
 alias kga='kubectl get all'
 alias kgs='kubectl get svc'
 alias kgp='kubectl get pods'
 kd() {
   kubectl describe $1 $2
+}
+
+azlogin() {
+  az login --use-device-code
 }
 
 azprcreate() {
@@ -27,3 +36,6 @@ azprcreate() {
 azprcomplete() {
   az repos pr complete --id $1 --status completed -o table
 }
+
+compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
+alias decompress="tar -xzf"
