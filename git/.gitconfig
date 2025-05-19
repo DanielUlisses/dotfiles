@@ -8,6 +8,7 @@
 [core]
 #	sshcommand = ssh.exe
 	editor = nvim
+	excludesFile = ~/.gitignore
 [user]
 	name = daniel silva
 	email = danielulisses@outlook.com
