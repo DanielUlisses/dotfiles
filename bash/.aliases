@@ -1,13 +1,11 @@
+#!/bin/bash
+
 gaap() {
   git add -A && git commit -m "$*" && git push
 }
+
 alias gaa='git add -A'
-gpsup() {
-  git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
-}
-gaapsup() {
-  git add -A && git commit -m "$*" && git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
-}
+
 alias g='git'
 alias d='docker'
 alias gco='git checkout'
@@ -38,4 +36,13 @@ azprcomplete() {
 }
 
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
+
 alias decompress="tar -xzf"
+
+gaapsup() {
+  git add -A && git commit -m "$*" && git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+}
+
+function gpsup {
+  git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+}

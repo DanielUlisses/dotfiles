@@ -12,3 +12,5 @@
 [user]
 	name = daniel silva
 	email = danielulisses@outlook.com
+[credential]
+	helper = store
