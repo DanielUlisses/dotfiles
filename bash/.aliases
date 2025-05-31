@@ -39,6 +39,10 @@ compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 
 alias decompress="tar -xzf"
 
+cursor() {
+    /opt/cursor.appimage --no-sandbox "$@"
+}
+
 gaapsup() {
   git add -A && git commit -m "$*" && git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
 }
