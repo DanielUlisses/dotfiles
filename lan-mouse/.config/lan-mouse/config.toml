@@ -1,0 +1,20 @@
+# example configuration
+
+# configure release bind
+release_bind = [ "KeyA", "KeyS", "KeyD", "KeyF" ]
+
+# optional port (defaults to 4242)
+port = 4242
+
+# list of authorized tls certificate fingerprints that
+# are accepted for incoming traffic
+#[authorized_fingerprints]
+
+# define a client on the right side with host name "iridium"
+[right]
+# hostname
+hostname = "DSilva-PF58BFF4"
+# activate this client immediately when lan-mouse is started
+activate_on_startup = true
+# optional list of (known) ip addresses
+ips = ["192.168.86.184"]
