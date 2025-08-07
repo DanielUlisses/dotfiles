@@ -7,9 +7,9 @@ function exit_with_message() {
   exit 1
 }
 
-#this script is ready for debian based distros
-packages_linux="apt-transport-https build-essential libssl-dev ca-certificates git gnupg-agent curl software-properties-common jq make zip unzip bpytop htop gcc fzf cmake clang gettext ripgrep tree wget"
-packages_additional=""
+#this script is ready for arch based distros
+packages_linux=""
+packages_additional="lan-mouse-git"
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
@@ -31,30 +31,6 @@ while [ $# -gt 0 ]; do
     SETUP_DOTFILES=$2
     shift
     ;;
-  --setup-starship)
-    SETUP_STARSHIP=$2
-    shift
-    ;;
-  --setup-omakub)
-    SETUP_OMAKUB=$2
-    shift
-    ;;
-  --setup-docker)
-    SETUP_DOCKER=$2
-    shift
-    ;;
-  --setup-github-cli)
-    SETUP_GITHUB_CLI=$2
-    shift
-    ;;
-  --install-nerd-fonts)
-    INSTALL_NERD_FONTS=$2
-    shift
-    ;;
-  --change-ccedil)
-    CHANGE_CEDILLA=$2
-    shift
-    ;;
   *)
     echo "Running default options"
     DEFAULT=true
@@ -63,15 +39,14 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-aptintall() {
+pacman_intall() {
   packages=$1
-  sudo apt install -y $packages
+  sudo pacman -S $packages
 }
 
-omakub_install() {
-  export OMAKUB_FIRST_RUN_LANGUAGES=""
-  export OMAKUB_FIRST_RUN_DBS=""
-  wget -qO- https://omakub.org/install | bash
+yay_intall() {
+  packages=$1
+  yay -S $packages
 }
 
 ssh_configure() {
@@ -84,57 +59,44 @@ ssh_configure() {
 }
 
 dotfiles_install() {
-  sudo apt update
-  sudo apt install -y stow
-  [[ -f $HOME/.gitconfig ]] && mv $HOME/.gitconfig $HOME/.gitconfig.bak
-  [[ -f $HOME/.bashrc ]] && mv $HOME/.bashrc $HOME/.bashrc.bak
+  sudo pacman -Syu
+  sudo pacman -S stow
+  [[ -f $HOME/.config/alacritty/alacritty.yml ]] && mv $HOME/.config/alacritty/alacritty.toml $HOME/.config/alacritty/alacritty.yml.bak
   [[ -f $HOME/.aliases ]] && mv $HOME/.aliases $HOME/.aliases.bak
-  [[ -f $HOME/.config/zellij/config.kdl ]] && mv $HOME/.config/zellij/config.kdl $HOME/.config/zellij/config.kdl.bak
+  [[ -f $HOME/.bashrc ]] && mv $HOME/.bashrc $HOME/.bashrc.bak
+  [[ -f $HOME/.config/gh/config.yml ]] && mv $HOME/.config/gh/config.yml $HOME/.config/gh/config.yml.bak
+  [[ -f $HOME/.gitconfig ]] && mv $HOME/.gitconfig $HOME/.gitconfig.bak
+  [[ -f $HOME/.config/hypr/autostart.conf ]] && mv $HOME/.config/hypr/autostart.conf $HOME/.config/hypr/autostart.conf.bak
+  [[ -f $HOME/.config/hypr/bindings.conf ]] && mv $HOME/.config/hypr/bindings.conf $HOME/.config/hypr/bindings.conf.bak
+  [[ -f $HOME/.config/hypr/envs.conf ]] && mv $HOME/.config/hypr/envs.conf $HOME/.config/hypr/envs.conf.bak
+  [[ -f $HOME/.config/hypr/hypridle.conf ]] && mv $HOME/.config/hypr/hypridle.conf $HOME/.config/hypr/hypridle.conf.bak
+  [[ -f $HOME/.config/hypr/hyprland.conf ]] && mv $HOME/.config/hypr/hyprland.conf $HOME/.config/hypr/hyprland.conf.bak
+  [[ -f $HOME/.config/hypr/hyprlock.conf ]] && mv $HOME/.config/hypr/hyprlock.conf $HOME/.config/hypr/hyprlock.conf.bak
+  [[ -f $HOME/.config/hypr/hyprsunset.conf ]] && mv $HOME/.config/hypr/hyprsunset.conf $HOME/.config/hypr/hyprsunset.conf.bak
+  [[ -f $HOME/.config/hypr/input.conf ]] && mv $HOME/.config/hypr/input.conf $HOME/.config/hypr/input.conf.bak
+  [[ -f $HOME/.config/hypr/monitors.conf ]] && mv $HOME/.config/hypr/monitors.conf $HOME/.config/hypr/monitors.conf.bak
+  [[ -f $HOME/.config/lan-mouse/config.toml ]] && mv $HOME/.config/lan-mouse/config.toml $HOME/.config/lan-mouse/config.toml.bak
+  [[ -f $HOME/.config/systemd/user/lan-mouse.service ]] && mv $HOME/.config/systemd/user/lan-mouse.service $HOME/.config/systemd/user/lan-mouse.service.bak
+    
+  stow -v alacritty
   stow -v bash
+  stow -v gh
   stow -v git
-  stow starship
-  stow zellij
-}
-
-starship_install() {
-  curl -fsSL https://starship.rs/install.sh | sh
-  echo 'eval "$(starship init bash)"' >>$HOME/.bashrc
-  eval "$(starship init bash)"
-}
-
-fonts_install() {
-  [[ ! -d $HOME/.fonts ]] && mkdir -p $HOME/.fonts || echo "fonts directory available"
-  ln -sf $SCRIPT_DIR/fonts/* $HOME/.fonts
-  fc-cache -f -v
-}
-
-ccedil() {
-  sudo echo GTK_IM_MODULE=cedilla >>/etc/environment
-}
-
-change_shell() {
-  chsh -s $(which bash)
+  stow -v hypr
+  stow -v lan-mouse
 }
 
 echo "executing default actions"
-# omakub_install
-# starship_install
 dotfiles_install
 
 if [ $INSTALL ]; then
   echo "installing packages " $packages_linux
-  aptintall "$packages_linux"
-  # change_shell
+  pacman_install "$packages_linux"
 fi
 
 if [ $INSTALL_ADDITIONAL ]; then
   echo "installing additional packages"
-  aptintall "$packages_additional"
-  devcontainer-cli
-  # nodejs_nvm_setup
-  # nvim_install
-  # tmuxifier_install
-#		kitty_install
+  yay_install "$packages_additional"
 fi
 
 if [ $SETUP_DOTFILES ]; then
@@ -142,39 +104,9 @@ if [ $SETUP_DOTFILES ]; then
   dotfiles_install
 fi
 
-if [ $SETUP_STARSHIP ]; then
-  echo "setting up starship"
-  starship_install
-fi
-
-if [ $SETUP_OMAKUB ]; then
-  echo "setting up omakub"
-  omakub_install
-fi
-
 if [ $SETUP_SSH ]; then
   echo "setting up ssh"
   ssh_configure
-fi
-
-if [ $SETUP_DOCKER ]; then
-  echo "setting up docker"
-  docker_setup
-fi
-
-if [ $SETUP_GITHUB_CLI ]; then
-  echo "setting up github cli"
-  githubcli_setup
-fi
-
-if [ $INSTALL_NERD_FONTS ]; then
-  echo "installing nerd fonts"
-  fonts_install
-fi
-
-if [ $CHANGE_CEDILLA ]; then
-  echo "changing cedilla"
-  ccedil
 fi
 
 echo "all steps are completed!!!"
