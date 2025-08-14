@@ -89,11 +89,8 @@ dotfiles_install() {
   [[ -f $HOME/.gitconfig ]] && mv $HOME/.gitconfig $HOME/.gitconfig.bak
   [[ -f $HOME/.bashrc ]] && mv $HOME/.bashrc $HOME/.bashrc.bak
   [[ -f $HOME/.aliases ]] && mv $HOME/.aliases $HOME/.aliases.bak
-  [[ -f $HOME/.config/zellij/config.kdl ]] && mv $HOME/.config/zellij/config.kdl $HOME/.config/zellij/config.kdl.bak
   stow -v bash
   stow -v git
-  stow starship
-  stow zellij
 }
 
 starship_install() {
