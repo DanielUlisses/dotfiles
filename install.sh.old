@@ -81,7 +81,7 @@ dotfiles_install() {
   stow -v alacritty
   stow -v bash
   stow -v gh
-  stow -v git
+  stow -v git --dotfiles
   stow -v hypr
   stow -v lan-mouse
 }
