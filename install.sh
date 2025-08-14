@@ -90,7 +90,7 @@ dotfiles_install() {
   [[ -f $HOME/.bashrc ]] && mv $HOME/.bashrc $HOME/.bashrc.bak
   [[ -f $HOME/.aliases ]] && mv $HOME/.aliases $HOME/.aliases.bak
   stow -v bash
-  stow -v git
+  stow -v git --dotfiles
 }
 
 starship_install() {
