@@ -35,13 +35,17 @@ azprcomplete() {
   az repos pr complete --id $1 --status completed -o table
 }
 
+azpiperun() {
+  az pipelines run --project $1 --name $2
+}
+
+azpipestatus() {
+  az pipelines runs list --project $1 --query "[?definition.name=='$2'] | [0:2].{RunID:id, PipelineName:definition.name, Status:status, Result:result, QueueStatus:definition.queueStatus}" --output table
+}
+
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
 
 alias decompress="tar -xzf"
-
-cursor() {
-    /opt/cursor.appimage --no-sandbox "$@"
-}
 
 gaapsup() {
   git add -A && git commit -m "$*" && git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
