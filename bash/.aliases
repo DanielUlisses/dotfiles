@@ -36,7 +36,7 @@ azprcomplete() {
 }
 
 azpiperun() {
-  az pipelines run --project $1 --name $2
+  az pipelines run --project $1 --name $2 --branch $(git branch --show-current) -o table
 }
 
 azpipestatus() {
