@@ -18,4 +18,4 @@
 [commit]
 	gpgsign = true
 [core]
-	excludesfile = /home/daniel/.gitignore
+	excludesfile = /home/daniel/.config/git/ignore
