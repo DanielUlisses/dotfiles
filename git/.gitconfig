@@ -3,6 +3,8 @@
 	br = branch
 	ci = commit
 	st = status
+	pr = "!f() { exec az repos pr \"$@\"; }; f"
+	repo = "!f() { exec az repos \"$@\"; }; f"
 [pull]
 	rebase = true
 [init]
@@ -19,3 +21,5 @@
 	gpgsign = true
 [core]
 	excludesfile = /home/daniel/.config/git/ignore
+[credential]
+	helper = store
