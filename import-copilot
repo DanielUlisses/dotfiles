@@ -1,0 +1,35 @@
+#!/bin/bash
+# Imports ~/.config/.copilot settings into the copilot stow package,
+# then stows it (replacing originals with symlinks via --adopt).
+
+set -e
+
+DOTFILES="$(cd "$(dirname "$0")" && pwd)"
+SRC="$HOME/.config/.copilot"
+PKG="$DOTFILES/copilot/.config/.copilot"
+
+mkdir -p "$PKG/skills"
+
+# Copy config.json if not already managed by stow
+if [ -f "$SRC/config.json" ] && [ ! -L "$SRC/config.json" ]; then
+  cp "$SRC/config.json" "$PKG/config.json"
+fi
+
+# Copy skills directory contents if not already managed by stow
+if [ -d "$SRC/skills" ]; then
+  find "$SRC/skills" -type f | while read -r file; do
+    rel="${file#$SRC/}"
+    dest="$PKG/$rel"
+    if [ ! -L "$SRC/$rel" ]; then
+      mkdir -p "$(dirname "$dest")"
+      cp "$file" "$dest"
+    fi
+  done
+fi
+
+# Stow the package: --adopt moves existing target files into the package
+# and replaces them with symlinks
+cd "$DOTFILES"
+stow --adopt -v copilot
+
+echo "✓ Copilot config imported and stowed successfully."

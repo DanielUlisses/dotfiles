@@ -1,0 +1,13 @@
+{
+  "banner": "never",
+  "trusted_folders": [
+    "/home/daniel/repos/daniel/copilot-agents",
+    "/home/daniel/repos/lanvera/terragrunt",
+    "/home/daniel/repos/lanvera/appofapps"
+  ],
+  "render_markdown": true,
+  "skill_directories": [
+    "/home/daniel/skills/lanvera-appsofapps",
+    "/home/daniel/skills"
+  ]
+}
