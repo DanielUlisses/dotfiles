@@ -3,11 +3,18 @@
   "trusted_folders": [
     "/home/daniel/repos/daniel/copilot-agents",
     "/home/daniel/repos/lanvera/terragrunt",
-    "/home/daniel/repos/lanvera/appofapps"
+    "/home/daniel/repos/lanvera/appofapps",
+    "/home/daniel/repos/lanvera",
+    "/home/daniel/repos/daniel/solar-dashboard"
   ],
   "render_markdown": true,
   "skill_directories": [
     "/home/daniel/skills/lanvera-appsofapps",
     "/home/daniel/skills"
+  ],
+  "model": "gpt-5.4",
+  "reasoning_effort": "xhigh",
+  "allowed_urls": [
+    "https://registry.terraform.io"
   ]
 }
