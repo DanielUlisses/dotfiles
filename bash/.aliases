@@ -27,24 +27,84 @@ azlogin() {
   az login --use-device-code
 }
 
+git_current_branch() {
+  local git_context=""
+  local git_args=()
+  local branch=""
+
+  if [ "$1" = "-C" ]; then
+    if [ -z "$2" ]; then
+      return 1
+    fi
+    git_context="$2"
+  fi
+
+  if [ -n "$git_context" ]; then
+    git_args=(-C "$git_context")
+  fi
+
+  branch="$(git "${git_args[@]}" branch --show-current 2>/dev/null)"
+  if [ -n "$branch" ]; then
+    printf '%s\n' "$branch"
+    return 0
+  fi
+
+  branch="$(git "${git_args[@]}" symbolic-ref --quiet --short HEAD 2>/dev/null)"
+  if [ -n "$branch" ]; then
+    printf '%s\n' "$branch"
+    return 0
+  fi
+
+  branch="$(git "${git_args[@]}" rev-parse --abbrev-ref HEAD 2>/dev/null)"
+  if [ -n "$branch" ] && [ "$branch" != "HEAD" ]; then
+    printf '%s\n' "$branch"
+    return 0
+  fi
+
+  local git_file
+  if [ -n "$git_context" ]; then
+    git_file="$git_context/.git"
+  else
+    git_file=".git"
+  fi
+
+  if [ -f "$git_file" ]; then
+    local gitdir_line gitdir_path
+    gitdir_line="$(sed -n '1p' "$git_file" 2>/dev/null)"
+    case "$gitdir_line" in
+      "gitdir: "*)
+        gitdir_path="${gitdir_line#gitdir: }"
+        if [[ "$gitdir_path" == *"/worktrees/"* ]]; then
+          branch="${gitdir_path##*/}"
+          if [ -n "$branch" ]; then
+            printf '%s\n' "$branch"
+            return 0
+          fi
+        fi
+        ;;
+    esac
+  fi
+
+  return 1
+}
+
 azprcreate() {
   if [ $# -lt 2 ]; then
-    echo "Usage: azprcreate <repo> <title>" >&2
+    echo "Usage: azprcreate <repo> <target-branch>" >&2
     return 1
   fi
 
   local repo="$1"
-  shift
-  local title="$*"
+  local target_branch="$2"
   local source_branch
 
-  source_branch="$(git branch --show-current 2>/dev/null)"
+  source_branch="$(git_current_branch)"
   if [ -z "$source_branch" ]; then
     echo "azprcreate: could not detect current git branch in $(pwd -P)" >&2
     return 1
   fi
 
-  az repos pr create -r "$repo" -s "$source_branch" -t "$title" -o table
+  az repos pr create -r "$repo" -s "$source_branch" -t "$target_branch" -o table
 }
 
 azprcomplete() {
@@ -52,7 +112,19 @@ azprcomplete() {
 }
 
 azpiperun() {
-  az pipelines run --project $1 --name $2 --branch $(git branch --show-current) -o table
+  if [ $# -lt 2 ]; then
+    echo "Usage: azpiperun <project> <pipeline-name>" >&2
+    return 1
+  fi
+
+  local source_branch
+  source_branch="$(git_current_branch)"
+  if [ -z "$source_branch" ]; then
+    echo "azpiperun: could not detect current git branch in $(pwd -P)" >&2
+    return 1
+  fi
+
+  az pipelines run --project "$1" --name "$2" --branch "$source_branch" -o table
 }
 
 azpipestatus() {
