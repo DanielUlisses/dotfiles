@@ -28,7 +28,23 @@ azlogin() {
 }
 
 azprcreate() {
-  az repos pr create -r $(basename `git rev-parse --show-toplevel`) -s  $(git branch --show-current) -t $1 -o table
+  if [ $# -lt 2 ]; then
+    echo "Usage: azprcreate <repo> <title>" >&2
+    return 1
+  fi
+
+  local repo="$1"
+  shift
+  local title="$*"
+  local source_branch
+
+  source_branch="$(git branch --show-current 2>/dev/null)"
+  if [ -z "$source_branch" ]; then
+    echo "azprcreate: could not detect current git branch in $(pwd -P)" >&2
+    return 1
+  fi
+
+  az repos pr create -r "$repo" -s "$source_branch" -t "$title" -o table
 }
 
 azprcomplete() {
@@ -157,3 +173,63 @@ ad() {
 
   "${cmd[@]}"
 }
+
+copilot_call_safe() {
+  local repo_root outside_dir
+  if repo_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    :
+  else
+    repo_root="$(pwd -P)"
+  fi
+  outside_dir="$(dirname "$repo_root")"
+
+  local opts=(
+    --add-dir "$outside_dir"
+    --allow-tool='shell(ls)'
+    --allow-tool='shell(find)'
+    --allow-tool='shell(rg)'
+    --allow-tool='shell(grep)'
+    --allow-tool='shell(cat)'
+    --allow-tool='shell(head)'
+    --allow-tool='shell(tail)'
+    --allow-tool='shell(sed)'
+    --allow-tool='shell(awk)'
+    --allow-tool='shell(diff)'
+    --allow-tool='shell(git status)'
+    --allow-tool='shell(git diff)'
+    --allow-tool='shell(git show)'
+    --allow-tool='shell(git log)'
+    --allow-tool='shell(git branch)'
+    --allow-tool='shell(pytest)'
+    --allow-tool='shell(pytest:*)'
+    --allow-tool='shell(python -m pytest)'
+    --allow-tool='shell(uv run pytest)'
+    --allow-tool='shell(poetry run pytest)'
+    --allow-tool='shell(pipenv run pytest)'
+    --allow-tool='write'
+    --deny-tool='shell(rm)'
+    --deny-tool='shell(shred)'
+    --deny-tool='shell(dd)'
+    --deny-tool='shell(mkfs:*)'
+    --deny-tool='shell(fdisk:*)'
+    --deny-tool='shell(parted:*)'
+    --deny-tool='shell(wipefs)'
+    --deny-tool='shell(sudo:*)'
+    --deny-tool='shell(git push)'
+    --deny-tool='shell(git push:*)'
+    --deny-tool='shell(git reset)'
+    --deny-tool='shell(git reset:*)'
+    --deny-tool='shell(git clean)'
+    --deny-tool='shell(git clean:*)'
+    --deny-tool='shell(git checkout)'
+    --deny-tool='shell(git checkout:*)'
+    --deny-tool='shell(git restore)'
+    --deny-tool='shell(git restore:*)'
+    --deny-tool='shell(git rebase)'
+    --deny-tool='shell(git rebase:*)'
+  )
+
+  copilot "${opts[@]}" "$@"
+}
+
+alias ccall='copilot_call_safe'

@@ -17,3 +17,4 @@ source ~/.aliases
 
 export PATH="$HOME/.local/bin:$PATH"
 export ANDROID_HOME="$HOME/Android/Sdk"
+export EDITOR=code-insiders
